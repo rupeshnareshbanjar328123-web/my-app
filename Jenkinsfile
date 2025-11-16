@@ -1,6 +1,10 @@
-
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18-alpine'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
@@ -32,6 +36,7 @@ pipeline {
         }
         
         stage('Docker Build') {
+            agent any
             steps {
                 echo '🐳 Building Docker image...'
                 sh """
@@ -42,6 +47,7 @@ pipeline {
         }
         
         stage('Docker Login') {
+            agent any
             steps {
                 echo '🔐 Logging into Docker Hub...'
                 sh 'echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
@@ -49,6 +55,7 @@ pipeline {
         }
         
         stage('Docker Push') {
+            agent any
             steps {
                 echo '⬆ Pushing to Docker Hub...'
                 sh """
@@ -59,6 +66,7 @@ pipeline {
         }
         
         stage('Deploy') {
+            agent any
             steps {
                 echo '🚀 Deploying application...'
                 sh """
@@ -83,6 +91,3 @@ pipeline {
         }
     }
 }
-
-
-
