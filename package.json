@@ -1,0 +1,18 @@
+json
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "Jenkins CI/CD Demo App",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest",
+    "build": "echo 'Build completed successfully'"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
